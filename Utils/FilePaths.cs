@@ -20,7 +20,7 @@ namespace FriendlyBot.Utils
             else
             {
                 string json = File.ReadAllText(filePathsFile);
-                filePaths = JsonConvert.DeserializeObject<dynamic>(json);
+                filePaths = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
             }
         }
 
