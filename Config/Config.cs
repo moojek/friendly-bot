@@ -1,11 +1,12 @@
 using System.IO;
+using FriendlyBot.Utils;
 using Newtonsoft.Json;
 
 namespace FriendlyBot.Config
 {
-    public class Config
+    public static class Config
     {
-        private const string configFile = "Config/Keys/config.json";
+        private static string configFile = FilePaths.GetFilePath("CONFIG");
         public static BotConfig botConfig;
 
         static Config()

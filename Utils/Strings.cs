@@ -8,7 +8,7 @@ namespace FriendlyBot.Utils
     public static class Strings
     {
         private static Dictionary<string, string> strings;
-        private static string stringsFile = "Messages/strings.json";
+        private static string stringsFile = FilePaths.GetFilePath("STRINGS");
         static Strings()
         {
             if (!File.Exists(stringsFile))
