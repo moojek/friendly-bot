@@ -60,7 +60,7 @@ namespace FriendlyBot.Components.ListsSystem
         }
         public static int GetPersonPosition(string name)
         {
-            return people.FindIndex(i => i.Key == name) + 1;
+            return people.FindIndex(i => i.Key.ToString() == name) + 1;
         }
 
         public static List<KeyValuePair<string, string>> GetList()

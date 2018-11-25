@@ -56,7 +56,7 @@ namespace FriendlyBot.Components.Commands
         public async Task GetPosition([Remainder]string person)
         {
             int pos = ListsSystem.WaitingList.GetPersonPosition(person);
-            if (pos == -1)
+            if (pos == 0)
                 await Context.Channel.SendMessageAsync("That person doesn't appear in waiting list");
             else
                 await Context.Channel.SendMessageAsync(pos.ToString());
@@ -66,11 +66,10 @@ namespace FriendlyBot.Components.Commands
         public async Task List()
         {
             var list = ListsSystem.WaitingList.GetList();
-            var text = String.Join('\n', list);
-            var notes = "";
+            // var text = String.Join('\n', list);
             var embed = new EmbedBuilder();
             for (int i = 0; i < list.Count; i++)
-                embed.AddField(i.ToString() + list[i], notes);
+                embed.AddField((i+1)+". " + i.ToString() + list[i].Key, list[i].Value);
             embed.WithTitle("Waiting list");
             // embed.WithDescription(text);
             await Context.Channel.SendMessageAsync("", embed: embed);
