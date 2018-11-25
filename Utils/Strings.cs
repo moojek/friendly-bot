@@ -11,9 +11,17 @@ namespace FriendlyBot.Utils
         private static string stringsFile = "Messages/strings.json";
         static Strings()
         {
-            string json = File.ReadAllText(stringsFile);
-            var data = JsonConvert.DeserializeObject<dynamic>(json);
-            strings = data.ToObject<Dictionary<string, string>>();
+            if (!File.Exists(stringsFile))
+            {
+                strings = new Dictionary<string, string>();
+                string json = JsonConvert.SerializeObject(strings, Formatting.Indented);
+                File.WriteAllText(stringsFile, json);
+            }
+            else
+            {
+                string json = File.ReadAllText(stringsFile);
+                strings = JsonConvert.DeserializeObject<dynamic>(json);
+            }
         }
 
         public static string GetString(string key)
