@@ -4,25 +4,25 @@ using System.IO;
 using FriendlyBot.Utils;
 using Newtonsoft.Json;
 
-namespace FriendlyBot.Components.WaitingListSystem
+namespace FriendlyBot.Components.ListsSystem
 {
     public static class WaitingList
     {
-        private static List<string> people;
-        private static string peopleFile = FilePaths.GetFilePath("PEOPLE");
+        private static List<KeyValuePair<string, string>> people;
+        private static string peopleFile = FilePaths.GetFilePath("WAITING");
 
         static WaitingList()
         {
             if (!File.Exists(peopleFile))
             {
-                people = new List<string>();
+                people = new List<KeyValuePair<string, string>>();
                 string json = JsonConvert.SerializeObject(people, Formatting.Indented);
                 File.WriteAllText(peopleFile, json);
             }
             else
             {
                 string json = File.ReadAllText(peopleFile);
-                people = JsonConvert.DeserializeObject<List<string>>(json);
+                people = JsonConvert.DeserializeObject<List<KeyValuePair<string, string>>>(json);
             }
         }
 
@@ -33,18 +33,25 @@ namespace FriendlyBot.Components.WaitingListSystem
         }
         public static void AddPerson(string name)
         {
-            people.Add(name);
-            SavePeople();
+            AddPerson(name, (uint)people.Count, "No note provided");
         }
         public static void AddPerson(string name, uint pos)
         {
-            people.Insert((int)pos, name);
+            AddPerson(name, pos, "No note provided");
+        }
+        public static void AddPerson(string name, string note)
+        {
+            AddPerson(name, (uint)people.Count, note);
+        }
+        public static void AddPerson(string name, uint pos, string note)
+        {
+            people.Insert((int)pos, new KeyValuePair<string, string>(name, note));
             SavePeople();
         }
         public static void RemovePerson(string name)
         {
-            people.Remove(name);
-            SavePeople();
+            var pos = people.FindIndex(i => i.Key == name);
+            RemovePerson((uint)pos);
         }
         public static void RemovePerson(uint pos)
         {
@@ -53,7 +60,12 @@ namespace FriendlyBot.Components.WaitingListSystem
         }
         public static int GetPersonPosition(string name)
         {
-            return people.FindIndex(i => i == name);
+            return people.FindIndex(i => i.Key == name) + 1;
+        }
+
+        public static List<KeyValuePair<string, string>> GetList()
+        {
+            return people;
         }
     }
 }
