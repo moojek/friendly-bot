@@ -16,5 +16,16 @@ namespace FriendlyBot.Components.Commands
 
             await Context.Channel.SendMessageAsync("", embed: embed);
         }
+
+        [Command("textall")]
+        public async Task TextAll([Remainder]string message)
+        {
+            var users = Context.Guild.Users;
+            foreach (var user in users)
+            {
+                if (!user.IsBot)
+                    await user.SendMessageAsync(message);
+            }
+        }
     }
 }
