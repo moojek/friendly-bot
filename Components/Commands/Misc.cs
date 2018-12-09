@@ -4,6 +4,7 @@ using Discord.Commands;
 using System;
 using Discord.WebSocket;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FriendlyBot.Components.Commands
 {
@@ -53,5 +54,43 @@ namespace FriendlyBot.Components.Commands
                 await Context.Channel.SendMessageAsync(user.Nickname);
             }
         }
+
+        [Command("fromjoin")]
+        public async Task GetTimeFromJoin(IRole role)
+        {
+            var currentTime = DateTimeOffset.Now;
+            foreach (var user in ((SocketRole)role).Members)
+            {
+                var joinedTime = user.JoinedAt;
+                string time = (currentTime - joinedTime).Value.Days.ToString();
+                // string name = user.Nickname == null ? user.Username : user.Nickname;
+                await Context.Channel.SendMessageAsync((user.Nickname ?? user.Username) + ": " + time);
+            }
+            await Context.Channel.SendMessageAsync("-------");
+        }
+        [Command("fromjoin")]
+        public async Task GetTimeFromJoin(IUser user)
+        {
+            var currentTime = DateTimeOffset.Now;
+            var joinedTime = ((SocketGuildUser)user).JoinedAt;
+            string time = (currentTime - joinedTime).Value.Days.ToString();
+            await Context.Channel.SendMessageAsync((((SocketGuildUser)user).Nickname ?? user.Username) + ": " + time);
+            await Context.Channel.SendMessageAsync("-------");
+        }
+        [Command("fromjoin")]
+        public async Task GetTimeFromJoin()
+        {
+            var currentTime = DateTimeOffset.Now;
+            foreach (var user in Context.Guild.Users)
+            {
+                var joinedTime = user.JoinedAt;
+                string time = (currentTime - joinedTime).Value.Days.ToString();
+                // string name = user.Nickname == null ? user.Username : user.Nickname;
+                await Context.Channel.SendMessageAsync((user.Nickname ?? user.Username) + ": " + time);
+            }
+            await Context.Channel.SendMessageAsync("-------");
+        }
+
+        // [Command("pruneasleep")]
     }
 }
