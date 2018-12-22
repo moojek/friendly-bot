@@ -93,11 +93,12 @@ namespace FriendlyBot.Components.Commands
         }
 
         // [Command("pruneasleep")]
+
         [Command("getmessage")]
         public async Task SendMessageStringAsFile(ulong ID)
         {
             var message = Context.Channel.GetMessageAsync(ID);
-            string msgString = message.ToString();
+            var msgString = message.Result.Content;
             string filePath = "Temp/" + ID.ToString();
             File.WriteAllText(filePath, msgString);
             await Context.Channel.SendFileAsync(filePath);
@@ -107,7 +108,7 @@ namespace FriendlyBot.Components.Commands
         public async Task SendMessageStringAsFile(ulong ID, IChannel channel)
         {
             var message = ((ISocketMessageChannel)channel).GetMessageAsync(ID);
-            string msgString = message.ToString();
+            var msgString = message.Result.Content;
             string filePath = "Temp/" + ID.ToString();
             File.WriteAllText(filePath, msgString);
             await Context.Channel.SendFileAsync(filePath);
