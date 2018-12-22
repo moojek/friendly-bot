@@ -54,7 +54,7 @@ namespace FriendlyBot.Components.Commands
         }
 
         [Command("position")]
-        public async Task GetPosition([Remainder]string person)
+        public async Task GetPosition(string person)
         {
             int pos = ListsSystem.WaitingList.GetPersonPosition(person);
             if (pos == 0)
