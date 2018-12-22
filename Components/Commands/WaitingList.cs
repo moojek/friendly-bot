@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using FriendlyBot.Components;
+using FriendlyBot.Utils;
 
 namespace FriendlyBot.Components.Commands
 {
@@ -57,7 +58,7 @@ namespace FriendlyBot.Components.Commands
         {
             int pos = ListsSystem.WaitingList.GetPersonPosition(person);
             if (pos == 0)
-                await Context.Channel.SendMessageAsync("That person doesn't appear in waiting list");
+                await Context.Channel.SendMessageAsync(Strings.GetString("WAITING_NO_PERSON"));
             else
                 await Context.Channel.SendMessageAsync(pos.ToString());
         }
@@ -68,9 +69,9 @@ namespace FriendlyBot.Components.Commands
             var list = ListsSystem.WaitingList.GetList();
             // var text = String.Join('\n', list);
             var embed = new EmbedBuilder();
-            for (int i = 0; i < list.Count; i++)
-                embed.AddField((i+1)+". " + i.ToString() + list[i].Key, list[i].Value);
             embed.WithTitle("Waiting list");
+            for (int i = 0; i < list.Count; i++)
+                embed.AddField((i + 1) + ". " + i.ToString() + list[i].Key, list[i].Value);
             // embed.WithDescription(text);
             await Context.Channel.SendMessageAsync("", embed: embed);
         }

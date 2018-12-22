@@ -33,11 +33,11 @@ namespace FriendlyBot.Components.ListsSystem
         }
         public static void AddPerson(string name)
         {
-            AddPerson(name, (uint)people.Count, "No note provided");
+            AddPerson(name, (uint)people.Count, Strings.GetString("NO_NOTE"));
         }
         public static void AddPerson(string name, uint pos)
         {
-            AddPerson(name, pos, "No note provided");
+            AddPerson(name, pos, Strings.GetString("NO_NOTE"));
         }
         public static void AddPerson(string name, string note)
         {

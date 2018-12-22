@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Drawing;
+using FriendlyBot.Utils;
 
 namespace FriendlyBot.Components.Commands
 {
@@ -16,7 +17,7 @@ namespace FriendlyBot.Components.Commands
         public async Task Echo([Remainder] string message)
         {
             var embed = new EmbedBuilder();
-            embed.WithTitle($"{Context.User.Username}'s echoed message");
+            embed.WithTitle(Strings.GetString("ECHO_TITLE_&USERNAME",Context.User.Username));
             embed.WithDescription(message);
             embed.WithColor(255, 0, 0);
 
