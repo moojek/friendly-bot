@@ -67,5 +67,11 @@ namespace FriendlyBot.Components.ListsSystem
         {
             return people;
         }
+
+        public static void ClearList()
+        {
+            SavePeople();
+            people.Clear();
+        }
     }
 }

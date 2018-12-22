@@ -75,5 +75,12 @@ namespace FriendlyBot.Components.Commands
             // embed.WithDescription(text);
             await Context.Channel.SendMessageAsync("", embed: embed);
         }
+
+        [Command("clear")]
+        public Task Clear()
+        {
+            ListsSystem.WaitingList.ClearList();
+            return Task.CompletedTask;
+        }
     }
 }
