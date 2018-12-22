@@ -5,6 +5,7 @@ using System;
 using Discord.WebSocket;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 
 namespace FriendlyBot.Components.Commands
 {
@@ -92,5 +93,25 @@ namespace FriendlyBot.Components.Commands
         }
 
         // [Command("pruneasleep")]
+        [Command("getmessage")]
+        public async Task SendMessageStringAsFile(ulong ID)
+        {
+            var message = Context.Channel.GetMessageAsync(ID);
+            string msgString = message.ToString();
+            string filePath = "Temp/" + ID.ToString();
+            File.WriteAllText(filePath, msgString);
+            await Context.Channel.SendFileAsync(filePath);
+            File.Delete(filePath);
+        }
+        [Command("getmessage")]
+        public async Task SendMessageStringAsFile(ulong ID, IChannel channel)
+        {
+            var message = ((ISocketMessageChannel)channel).GetMessageAsync(ID);
+            string msgString = message.ToString();
+            string filePath = "Temp/" + ID.ToString();
+            File.WriteAllText(filePath, msgString);
+            await Context.Channel.SendFileAsync(filePath);
+            File.Delete(filePath);
+        }
     }
 }
