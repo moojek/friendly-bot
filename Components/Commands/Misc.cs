@@ -6,6 +6,7 @@ using Discord.WebSocket;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using System.Drawing;
 
 namespace FriendlyBot.Components.Commands
 {
@@ -113,6 +114,17 @@ namespace FriendlyBot.Components.Commands
             File.WriteAllText(filePath, msgString);
             await Context.Channel.SendFileAsync(filePath);
             File.Delete(filePath);
+        }
+
+        [Command("embed")]
+        public async Task EmbedString(string clr,[Remainder]string text)
+        {
+            var tempColour = System.Drawing.Color.FromName(clr);
+            var colour = new Discord.Color(tempColour.R, tempColour.G, tempColour.B);
+            var embed = new EmbedBuilder();
+            embed.WithDescription(text);
+            embed.WithColor(colour);
+            await Context.Channel.SendMessageAsync("", embed: embed);
         }
     }
 }
