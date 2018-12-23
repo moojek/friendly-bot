@@ -7,73 +7,68 @@ using Newtonsoft.Json;
 namespace FriendlyBot.Components.ListsSystem
 {
     public static class ListOperations
-    {
-        // private static List<KeyValuePair<string, string>> people;
-        private static List<List<Tuple<string, string>>> lists;
-        private static string listsFile = FilePaths.GetFilePath("LISTS");
-
-        static ListOperations()
+    {        
+        private static List<Tuple<string, string>> list;
+        static int listNum;
+        public static void LoadList(string listName)
         {
-            if (!File.Exists(listsFile))
-            {
-                lists = new List<List<Tuple<string, string>>>();
-                string json = JsonConvert.SerializeObject(lists, Formatting.Indented);
-                File.WriteAllText(listsFile, json);
-            }
-            else
-            {
-                string json = File.ReadAllText(listsFile);
-                lists = JsonConvert.DeserializeObject<List<List<Tuple<string, string>>>>(json);
-            }
+            listNum = DetermineLists.DetermineList(listName);
+            list = ListsOperations.GetList(listNum);
         }
-
-        public static void SaveLists()
+        public static void SaveList()
         {
-            string json = JsonConvert.SerializeObject(lists, Formatting.Indented);
-            File.WriteAllText(listsFile, json);
+            ListsOperations.UpdateList(listNum, ref list);
         }
-        public static void AddItem(uint listNum, string name)
+        public static void AddItem(string listName, string value)
         {
-            AddItem(listNum, name, (uint)lists.Count, Strings.GetString("NO_NOTE"));
+            AddItem(listName, value, Strings.GetString("NO_NOTE"));
         }
-        public static void AddItem(uint listNum, string name, uint pos)
+        public static void AddItem(string listName, string value, int pos)
         {
-            AddItem(listNum, name, pos, Strings.GetString("NO_NOTE"));
+            AddItem(listName, value, pos, Strings.GetString("NO_NOTE"));
         }
-        public static void AddItem(uint listNum, string name, string note)
+        public static void AddItem(string listName, string value, string note)
         {
-            AddItem(listNum, name, (uint)lists.Count, note);
+            LoadList(listName);
+            list.Insert(list.Count, new Tuple<string, string>(value, note));
+            SaveList();
         }
-        public static void AddItem(uint listNum, string name, uint pos, string note)
+        public static void AddItem(string listName, string value, int pos, string note)
         {
-            lists[(int)listNum].Insert((int)pos, new Tuple<string, string>(name, note));
-            SaveLists();
+            LoadList(listName);
+            list.Insert(pos, new Tuple<string, string>(value, note));
+            SaveList();
         }
-        public static void RemovePerson(uint listNum, string name)
+        public static void RemoveItem(string listName, string value)
         {
-            var pos = lists[(int)listNum].FindIndex(i => i.Item1 == name);
+            LoadList(listName);
+            var pos = list.FindIndex(i => i.Item1 == value);
             if (pos > 0)
-                RemovePerson(listNum, (uint)pos);
+                RemoveItem(listName, pos);
+            SaveList();
         }
-        public static void RemovePerson(uint listNum, uint pos)
+        public static void RemoveItem(string listName, int pos)
         {
-            lists[(int)listNum].RemoveAt((int)pos);
-            SaveLists();
+            LoadList(listName);
+            list.RemoveAt(pos);
+            SaveList();
         }
-        public static int GetPersonPosition(uint listNum, string name)
+        public static int GetItemPosition(string listName, string value)
         {
-            return lists[(int)listNum].FindIndex(i => i.Item1.ToString() == name) + 1;
-        }
-
-        public static List<Tuple<string, string>> GetList(uint listNum)
-        {
-            return lists[(int)listNum];
+            LoadList(listName);
+            return list.FindIndex(i => i.Item1.ToString() == value) + 1;
         }
 
-        public static void ClearList(uint listNum)
+        public static List<Tuple<string, string>> GetList(string listName)
         {
-            lists[(int)listNum].Clear();
-            SaveLists();
+            LoadList(listName);
+            return list;
+        }
+        public static void ClearList(string listName)
+        {
+            LoadList(listName);
+            list.Clear();
+            SaveList();
         }
     }
 }
