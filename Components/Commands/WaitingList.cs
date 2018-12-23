@@ -9,38 +9,44 @@ namespace FriendlyBot.Components.Commands
 {
     public class WaitingList : ModuleBase<SocketCommandContext>
     {
-        [Command("add")]
+        [Command("listadd")]
+        [Alias(new string[] { "la", "a" })]
         public Task AddToList(string person)
         {
             ListsSystem.WaitingList.AddPerson(person);
             return Task.CompletedTask;
         }
-        [Command("add")]
+        [Command("listadd")]
+        [Alias(new string[] { "la", "a" })]
         public Task AddToList(string person, uint pos)
         {
             ListsSystem.WaitingList.AddPerson(person, pos - 1);
             return Task.CompletedTask;
         }
-        [Command("add")]
+        [Command("listadd")]
+        [Alias(new string[] { "la", "a" })]
         public Task AddToList(string person, [Remainder]string note)
         {
             ListsSystem.WaitingList.AddPerson(person, note);
             return Task.CompletedTask;
         }
-        [Command("add")]
+        [Command("listadd")]
+        [Alias(new string[] { "la", "a" })]
         public Task AddToList(string person, uint pos, [Remainder]string note)
         {
             ListsSystem.WaitingList.AddPerson(person, pos, note);
             return Task.CompletedTask;
         }
 
-        [Command("removefirst")]
+        [Command("listremovefirst")]
+        [Alias(new string[] { "lrf", "rf", "rmf" })]
         public Task RemoveFirstFromList()
         {
             ListsSystem.WaitingList.RemovePerson(0);
             return Task.CompletedTask;
         }
-        [Command("removefirst")]
+        [Command("listremovefirst")]
+        [Alias(new string[] { "lrf", "rf", "rmf" })]
         public Task RemoveFirstFromList(uint count)
         {
             for (int i = 0; i < count; i++)
@@ -48,20 +54,23 @@ namespace FriendlyBot.Components.Commands
             return Task.CompletedTask;
         }
 
-        [Command("remove")]
+        [Command("listremove")]
+        [Alias(new string[] { "r", "rm", "lr" })]
         public Task RemoveFromList(uint pos)
         {
             ListsSystem.WaitingList.RemovePerson(pos - 1);
             return Task.CompletedTask;
         }
-        [Command("remove")]
+        [Command("listremove")]
+        [Alias(new string[] { "r", "rm", "lr" })]
         public Task RemoveFromList(string person)
         {
             ListsSystem.WaitingList.RemovePerson(person);
             return Task.CompletedTask;
         }
 
-        [Command("position")]
+        [Command("listposition")]
+        [Alias(new string[] { "listpos", "lp", "p", "pos" })]
         public async Task GetPosition(string person)
         {
             int pos = ListsSystem.WaitingList.GetPersonPosition(person);
@@ -71,7 +80,8 @@ namespace FriendlyBot.Components.Commands
                 await Context.Channel.SendMessageAsync(pos.ToString());
         }
 
-        [Command("list")]
+        [Command("listshow")]
+        [Alias(new string[] { "ls", "s" })]
         public async Task List()
         {
             var list = ListsSystem.WaitingList.GetList();
@@ -85,7 +95,7 @@ namespace FriendlyBot.Components.Commands
         }
 
         [Command("listclear")]
-        [Alias(new string[] {"c", "lc"})]
+        [Alias(new string[] { "c", "lc" })]
         public Task Clear()
         {
             ListsSystem.WaitingList.ClearList();
