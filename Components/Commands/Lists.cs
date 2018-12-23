@@ -7,7 +7,7 @@ using FriendlyBot.Utils;
 
 namespace FriendlyBot.Components.Commands
 {
-    public class WaitingList : ModuleBase<SocketCommandContext>
+    public class Lists : ModuleBase<SocketCommandContext>
     {
         [Command("listadd")]
         [Alias(new string[] { "la", "a" })]
@@ -25,16 +25,16 @@ namespace FriendlyBot.Components.Commands
         }
         [Command("listadd")]
         [Alias(new string[] { "la", "a" })]
-        public Task AddToList(string person, [Remainder]string note)
+        public Task AddToList(string person, uint pos, [Remainder]string note)
         {
-            ListsSystem.WaitingList.AddPerson(person, note);
+            ListsSystem.WaitingList.AddPerson(person, pos, note);
             return Task.CompletedTask;
         }
         [Command("listadd")]
         [Alias(new string[] { "la", "a" })]
-        public Task AddToList(string person, uint pos, [Remainder]string note)
+        public Task AddToList(string person, [Remainder]string note)
         {
-            ListsSystem.WaitingList.AddPerson(person, pos, note);
+            ListsSystem.WaitingList.AddPerson(person, note);
             return Task.CompletedTask;
         }
 
