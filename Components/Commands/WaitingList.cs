@@ -34,12 +34,20 @@ namespace FriendlyBot.Components.Commands
             return Task.CompletedTask;
         }
 
-        [Command("remove")]
-        public Task RemoveFromList()
+        [Command("removefirst")]
+        public Task RemoveFirstFromList()
         {
             ListsSystem.WaitingList.RemovePerson(0);
             return Task.CompletedTask;
         }
+        [Command("removefirst")]
+        public Task RemoveFirstFromList(uint count)
+        {
+            for (int i = 0; i < count; i++)
+                ListsSystem.WaitingList.RemovePerson(0);
+            return Task.CompletedTask;
+        }
+
         [Command("remove")]
         public Task RemoveFromList(uint pos)
         {
@@ -76,7 +84,8 @@ namespace FriendlyBot.Components.Commands
             await Context.Channel.SendMessageAsync("", embed: embed);
         }
 
-        [Command("clear")]
+        [Command("listclear")]
+        [Alias(new string[] {"c", "lc"})]
         public Task Clear()
         {
             ListsSystem.WaitingList.ClearList();

@@ -51,7 +51,8 @@ namespace FriendlyBot.Components.ListsSystem
         public static void RemovePerson(string name)
         {
             var pos = people.FindIndex(i => i.Key == name);
-            RemovePerson((uint)pos);
+            if (pos > 0)
+                RemovePerson((uint)pos);
         }
         public static void RemovePerson(uint pos)
         {
