@@ -13,17 +13,6 @@ namespace FriendlyBot.Components.Commands
 {
     public class Misc : ModuleBase<SocketCommandContext>
     {
-        [Command("echo")]
-        public async Task Echo([Remainder] string message)
-        {
-            var embed = new EmbedBuilder();
-            embed.WithTitle(Strings.GetString("ECHO_TITLE_&USERNAME",Context.User.Username));
-            embed.WithDescription(message);
-            embed.WithColor(255, 0, 0);
-
-            await Context.Channel.SendMessageAsync("", embed: embed);
-        }
-
         [Command("textall")]
         public async Task TextAll([Remainder]string message)
         {
@@ -39,7 +28,6 @@ namespace FriendlyBot.Components.Commands
         public async Task GetUserWithMostRoles()
         {
             var users = Context.Guild.Users;
-            // Tuple<SocketGuildUser,int> max = new Tuple<SocketGuildUser, int>(null, 0);
             int max = 0;
             List<SocketGuildUser> max_users = new List<SocketGuildUser>();
             foreach (var user in users)
@@ -72,7 +60,7 @@ namespace FriendlyBot.Components.Commands
             await Context.Channel.SendMessageAsync("-------");
         }
         [Command("fromjoin")]
-        public async Task GetTimeFromJoin(IUser user)
+        public async Task GetTimeFromJoin(IGuildUser user)
         {
             var currentTime = DateTimeOffset.Now;
             var joinedTime = ((SocketGuildUser)user).JoinedAt;
@@ -126,6 +114,12 @@ namespace FriendlyBot.Components.Commands
             embed.WithDescription(text);
             embed.WithColor(colour);
             await Context.Channel.SendMessageAsync("", embed: embed);
+        }
+        
+        [Command("getthumbnail")]
+        public async Task GetServerImage()
+        {
+            await Context.Channel.SendMessageAsync(Context.Guild.IconUrl);
         }
     }
 }
