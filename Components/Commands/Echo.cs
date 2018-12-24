@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using FriendlyBot.Utils;
-using FriendlyBot.Components.EchoSystem;
+// using FriendlyBot.Components.EchoSystem;
 
 namespace FriendlyBot.Components.Commands
 {
