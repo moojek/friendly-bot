@@ -9,15 +9,14 @@ namespace FriendlyBot.Components.ListsSystem
     public static class ListOperations
     {        
         private static List<Tuple<string, string>> list;
-        static int listNum;
+
         public static void LoadList(string listName)
         {
-            listNum = DetermineLists.DetermineList(listName);
-            list = ListsOperations.GetList(listNum);
+            list = ListsOperations.GetList(listName);
         }
-        public static void SaveList()
+        public static void SaveList(string listName)
         {
-            ListsOperations.UpdateList(listNum, ref list);
+            ListsOperations.UpdateList(listName, ref list);
         }
         public static void AddItem(string listName, string value)
         {
@@ -31,13 +30,13 @@ namespace FriendlyBot.Components.ListsSystem
         {
             LoadList(listName);
             list.Insert(list.Count, new Tuple<string, string>(value, note));
-            SaveList();
+            SaveList(listName);
         }
         public static void AddItem(string listName, string value, int pos, string note)
         {
             LoadList(listName);
             list.Insert(pos, new Tuple<string, string>(value, note));
-            SaveList();
+            SaveList(listName);
         }
         public static void RemoveItem(string listName, string value)
         {
@@ -45,13 +44,13 @@ namespace FriendlyBot.Components.ListsSystem
             var pos = list.FindIndex(i => i.Item1 == value);
             if (pos > 0)
                 RemoveItem(listName, pos);
-            SaveList();
+            SaveList(listName);
         }
         public static void RemoveItem(string listName, int pos)
         {
             LoadList(listName);
             list.RemoveAt(pos);
-            SaveList();
+            SaveList(listName);
         }
         public static int GetItemPosition(string listName, string value)
         {
@@ -68,7 +67,7 @@ namespace FriendlyBot.Components.ListsSystem
         {
             LoadList(listName);
             list.Clear();
-            SaveList();
+            SaveList(listName);
         }
     }
 }

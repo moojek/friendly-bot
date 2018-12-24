@@ -8,21 +8,22 @@ namespace FriendlyBot.Components.ListsSystem
 {
     public class ListsOperations
     {
-        private static List<List<Tuple<string, string>>> lists;
+        // private static List<List<Tuple<string, string>>> lists;
+        private static Dictionary<string, List<Tuple<string, string>>> lists;
         private static string listsFile = FilePaths.GetFilePath("LISTS");
 
         static ListsOperations()
         {
             if (!File.Exists(listsFile))
             {
-                lists = new List<List<Tuple<string, string>>>();
+                lists = new Dictionary<string, List<Tuple<string, string>>>();
                 string json = JsonConvert.SerializeObject(lists, Formatting.Indented);
                 File.WriteAllText(listsFile, json);
             }
             else
             {
                 string json = File.ReadAllText(listsFile);
-                lists = JsonConvert.DeserializeObject<List<List<Tuple<string, string>>>>(json);
+                lists = JsonConvert.DeserializeObject<Dictionary<string, List<Tuple<string, string>>>>(json);
             }
         }
 
@@ -31,26 +32,26 @@ namespace FriendlyBot.Components.ListsSystem
             string json = JsonConvert.SerializeObject(lists, Formatting.Indented);
             File.WriteAllText(listsFile, json);
         }
-        public static void UpdateList(int listNum, ref List<Tuple<string,string>> updatedList)
+        public static void UpdateList(string listName, ref List<Tuple<string, string>> updatedList)
         {
-            lists[listNum] = updatedList;
+            lists[listName] = updatedList;
             SaveLists();
         }
-        public static void AddList()
+        public static void AddList(string listName)
         {
-            lists.Add(new List<Tuple<string, string>>());
+            lists.Add(listName, new List<Tuple<string, string>>());
             SaveLists();
         }
-        public static void RemoveList(int listNum)
+        public static void RemoveList(string listName)
         {
-            lists.RemoveAt(listNum);
+            lists.Remove(listName);
             SaveLists();
         }
-        public static List<Tuple<string, string>> GetList(int listNum)
+        public static List<Tuple<string, string>> GetList(string listName)
         {
-            return lists[listNum];
+            return lists[listName];
         }
-        public static List<List<Tuple<string, string>>> GetLists()
+        public static Dictionary<string, List<Tuple<string, string>>> GetLists()
         {
             return lists;
         }
