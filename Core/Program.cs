@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
+using FriendlyBot.Tools;
 // using FriendlyBot.Core;
 
 namespace FriendlyBot.Core
@@ -23,7 +24,7 @@ namespace FriendlyBot.Core
                 LogLevel = LogSeverity.Verbose
             });
 
-            client.Log += Log;
+            client.Log += Logger.Log;
 
             await client.LoginAsync(TokenType.Bot, Config.Config.botConfig.token);
             await client.StartAsync();
