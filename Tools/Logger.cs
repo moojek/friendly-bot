@@ -10,11 +10,10 @@ namespace FriendlyBot.Tools
         private static string currentLog;
         private static DateTimeOffset currentLogDate;
         private static string logFile;
-
         static Logger()
         {
             currentLogDate = DateTimeOffset.Now;
-            logFile = "Logs/" + currentLogDate.ToString("dMMMyyyy");
+            logFile = "Logs/" + currentLogDate.ToString("dMMMyyyy") + ".log";
             if (!File.Exists(logFile))
             {
                 currentLog = "";
@@ -28,7 +27,7 @@ namespace FriendlyBot.Tools
 
         public static void ValidateLog()
         {
-            if (currentLogDate == DateTimeOffset.Now)
+            if (currentLogDate.DayOfYear == DateTimeOffset.Now.DayOfYear && currentLogDate.Year == DateTimeOffset.Now.Year)
                 return;
             UpdateLog();
         }
@@ -36,7 +35,7 @@ namespace FriendlyBot.Tools
         {
             File.WriteAllText(logFile, currentLog);
             currentLogDate = DateTimeOffset.Now;
-            logFile = "Logs/" + currentLogDate.ToString("dMMMyyyy");
+            logFile = "Logs/" + currentLogDate.ToString("dMMMyyyy") + ".log";
             currentLog = "";
             File.WriteAllText(logFile, currentLog);
         }
