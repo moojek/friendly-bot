@@ -27,7 +27,7 @@ namespace FriendlyBot.Components.ListsSystem
             }
         }
 
-        public static void SaveLists()
+        private static void SaveLists()
         {
             string json = JsonConvert.SerializeObject(lists, Formatting.Indented);
             File.WriteAllText(listsFile, json);

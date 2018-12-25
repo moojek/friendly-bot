@@ -10,11 +10,11 @@ namespace FriendlyBot.Components.ListsSystem
     {        
         private static List<Tuple<string, string>> list;
 
-        public static void LoadList(string listName)
+        private static void LoadList(string listName)
         {
             list = ListsOperations.GetList(listName);
         }
-        public static void SaveList(string listName)
+        private static void SaveList(string listName)
         {
             ListsOperations.UpdateList(listName, ref list);
         }
